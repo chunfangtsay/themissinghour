@@ -3,13 +3,14 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Webcam Hourly Rotation</title>
+
+<title>24 Hour Webcam Rotation</title>
 
 <style>
 html, body {
-    margin: 0;
     width: 100%;
     height: 100%;
+    margin: 0;
     overflow: hidden;
     background: black;
 }
@@ -29,7 +30,7 @@ iframe {
     font-size: 28px;
     color: red;
     background: rgba(0,0,0,0.5);
-    padding: 6px 12px;
+    padding: 8px 14px;
     z-index: 9999;
 }
 </style>
@@ -43,50 +44,64 @@ iframe {
 
 <script>
 
+// =========================
+// 請將下面24個網址改成你的Webcam網址
+// =========================
+
 const webcams = [
-    "https://example1.com",
-    "https://example2.com",
-    "https://example3.com",
-    "https://example4.com",
-    "https://example5.com",
-    "https://example6.com",
-    "https://example7.com",
-    "https://example8.com",
-    "https://example9.com",
-    "https://example10.com",
-    "https://example11.com",
-    "https://example12.com",
-    "https://example13.com",
-    "https://example14.com",
-    "https://example15.com",
-    "https://example16.com",
-    "https://example17.com",
-    "https://example18.com",
-    "https://example19.com",
-    "https://example20.com",
-    "https://example21.com",
-    "https://example22.com",
-    "https://example23.com",
-    "https://example24.com"
+
+"https://worldcams.tv/united-states/san-francisco/international-airport",
+"https://map.eye-n-sky.net/LatestImage/Orofino-S68-West",
+"https://www.tanalianbiblecamp.org/Images/SWnetcam/SWcurrent.jpg",
+"https://weathercams.faa.gov/map/-158.96953,19.46693,-154.93205,21.70371/cameraSite/693/details/camera/12439/full",
+"https://www.youtube.com/watch?v=L3iKvwoXZ38",
+"https://worldcams.tv/new-zealand/wellington/airport",
+"https://weathercams.airservicesaustralia.com/?airport=hobart-airport",
+"https://worldcams.tv/australia/canberra/airport",
+"https://worldcams.tv/japan/tokyo/haneda-airport",
+"https://worldcams.tv/taiwan/taoyuan/taiwan-taoyuan-airport",
+"https://weathercams.airservicesaustralia.com/?airport=christmas-island-aero",
+"https://www.flightradar24.com/data/airports/pbh",
+"https://www.windfinder.com/webcams/male",
+"https://www.skylinewebcams.com/en/webcam/united-arab-emirates/dubai/dubai/dubai.html",
+"https://www.istairport.com/en/airport/maps/airport-live-stream/operation-center?locale=en",
+"https://worldcams.tv/germany/hamburg/airport",
+"https://worldcams.tv/united-kingdom/london/heathrow-airport",
+"https://g0.ipcamlive.com/player/player.php?alias=6741fef6c8e5f",
+"https://www.windfinder.com/webcams/ponta_delgada",
+"https://worldcams.tv/greenland/nuuk/airport",
+"https://worldcams.tv/brazil/sao-paulo/airport",
+"https://worldcams.tv/united-states/philadelphia/airport",
+"https://worldcams.tv/united-states/dallas-fort-worth/airport",
+"https://weathercams.faa.gov/map/-98.82134,32.44844,-94.78386,34.4421/cameraSite/1058/details/camera/13925/full"
+
 ];
 
-let currentHour = -1;
+// =========================
+// 起始時間設定
+// 10:00 對應第一個網址
+// =========================
+
+const startHour = 10;
+
+let currentIndex = -1;
 
 function loadCurrentCamera() {
 
     const now = new Date();
     const hour = now.getHours();
 
-    if (hour !== currentHour) {
+    const index = (hour - startHour + 24) % 24;
 
-        currentHour = hour;
+    if (index !== currentIndex) {
 
-        const url = webcams[hour];
+        currentIndex = index;
 
-        document.getElementById("viewer").src = url;
+        document.getElementById("viewer").src =
+            webcams[index];
 
         console.log(
-            `Hour ${hour}: Loading ${url}`
+            `目前時間 ${hour}:00 → Webcam ${index + 1}`
         );
     }
 }
@@ -104,12 +119,10 @@ function updateClock() {
 }
 
 loadCurrentCamera();
+updateClock();
 
 setInterval(loadCurrentCamera, 1000);
-
 setInterval(updateClock, 1000);
-
-updateClock();
 
 </script>
 
