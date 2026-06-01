@@ -77,6 +77,34 @@ const webcams = [
 
 ];
 
+    const utcOffsets = [
+    -7,
+    -8,
+    -9,
+    -10,
+    -11,
+    12,
+    11,
+    10,
+    9,
+    8,
+    7,
+    6,
+    5,
+    4,
+    3,
+    2,
+    1,
+    0,
+    -1,
+    -2,
+    -3,
+    -4,
+    -5,
+    -6
+];
+
+ 
 // =========================
 // 起始時間設定
 // 10:00 對應第一個網址
@@ -85,6 +113,7 @@ const webcams = [
 const startHour = 10;
 
 let currentIndex = -1;
+let currentUTC = -7;
 
 function loadCurrentCamera() {
 
@@ -96,9 +125,10 @@ function loadCurrentCamera() {
     if (index !== currentIndex) {
 
         currentIndex = index;
+currentUTC = utcOffsets[index];
 
-        document.getElementById("viewer").src =
-            webcams[index];
+document.getElementById("viewer").src =
+    webcams[index];
 
         console.log(
             `目前時間 ${hour}:00 → Webcam ${index + 1}`
@@ -110,12 +140,22 @@ function updateClock() {
 
     const now = new Date();
 
-    const h = String(now.getHours()).padStart(2, "0");
+    const h = "01";
     const m = String(now.getMinutes()).padStart(2, "0");
     const s = String(now.getSeconds()).padStart(2, "0");
 
+    let utcText;
+
+    if (currentUTC > 0) {
+        utcText = `UTC+${currentUTC}`;
+    } else if (currentUTC === 0) {
+        utcText = "UTC+0";
+    } else {
+        utcText = `UTC${currentUTC}`;
+    }
+
     document.getElementById("clock").textContent =
-        `${h}:${m}:${s}`;
+        `${utcText} ${h}:${m}:${s}`;
 }
 
 loadCurrentCamera();
