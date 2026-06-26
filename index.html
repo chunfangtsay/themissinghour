@@ -136,27 +136,7 @@ document.getElementById("viewer").src =
     }
 }
 
-function updateClock() {
 
-    const now = new Date();
-
-    const h = "01";
-    const m = String(now.getMinutes()).padStart(2, "0");
-    const s = String(now.getSeconds()).padStart(2, "0");
-
-    let utcText;
-
-    if (currentUTC > 0) {
-        utcText = `UTC+${currentUTC}`;
-    } else if (currentUTC === 0) {
-        utcText = "UTC+0";
-    } else {
-        utcText = `UTC${currentUTC}`;
-    }
-
-    document.getElementById("clock").textContent =
-        `(${utcText})   ${h}:${m}:${s}`;
-}
 
 loadCurrentCamera();
 updateClock();
